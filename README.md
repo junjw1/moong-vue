@@ -530,3 +530,49 @@ import axios from 'axios'
 
 Vue.prototype.$http = axios
 ```
+
+* 컴포넌트 생성 단계해서 api 요청하기
+
+```javascript
+// Home.vue
+
+export default {
+  data: function () {
+    return {}
+  },
+  created: function () {
+    this.$http.get('url')
+      .then((res) => {
+        console.log(res)
+      })
+      .catch((err) => {
+        console.log(err)
+      }
+  }
+}
+```
+
+실행했을때 크로스 도메인 이슈가 발생하는 경우 개발 서버에서 프록시 설정을 해주면 된다.
+
+* 웹팩 설정
+
+```javascript
+// webpack.config.dev.js
+
+{
+  ...,
+  devServer: {
+    proxy: {
+      '/api': {
+        target: "https://other-server.example.com",
+        pathRewrite: { '^/api': '' },
+        changeOrigin: true,
+        secure: false
+      }
+    }
+  }
+}
+```
+
+기존 URL이 https//outer-server.example.com/some/1 이었으면 /api/some/1 이라고만 보내면 된다.
+

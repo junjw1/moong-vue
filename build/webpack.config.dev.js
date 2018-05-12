@@ -45,5 +45,15 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: 'index.html'
     })
-  ]
+  ],
+  devServer: {
+    proxy: {
+      '/api': {
+        target: 'http://triphere.dgseo.info',
+        pathRewrite: { '^/api': '' },
+        changeOrigin: true,
+        secure: false
+      }
+    }
+  }
 }
