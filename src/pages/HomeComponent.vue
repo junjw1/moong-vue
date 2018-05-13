@@ -5,19 +5,19 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
   data: function () {
     return {}
   },
+  computed: {
+    ...mapGetters({
+      house: 'getHouse'
+    })
+  },
   created: function () {
-    this.$http.get('/api/activity/1')
-      .then((res) => {
-        console.log(res)
-      })
-      .catch((err) => {
-        console.error(err)
-      })
-    console.log('created home component')
+    this.$store.dispatch('getHouse')
   }
 }
 </script>

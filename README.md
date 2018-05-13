@@ -576,3 +576,137 @@ export default {
 
 기존 URL이 https//outer-server.example.com/some/1 이었으면 /api/some/1 이라고만 보내면 된다.
 
+
+# vuex
+
+api 에서 받아온 데이터를 vuex 를 이용해서 저장, 관리해봅시다.
+
+* 프로젝트 구조
+
+```shell
+src/
+├── components/
+├── pages/
+├── router/
+└── store/
+    ├── index.js          # 모듈을 조합하고 저장소를 내보내는 곳 입니다.
+    ├── api.js            # api 모음
+    ├── types.js          # type 모음
+    └── modules
+        └── house.js      # house 모듈
+    
+```
+
+* 설치
+
+```bash
+$ npm install -S vuex
+```
+
+* 스크립트 작성
+
+```javascript
+// types.js
+export const GET_HOUSE = 'GET_HOUSE'
+export const COM_IS_LOADING = 'COM_IS_LOADING'
+```
+
+```javascript
+// api.js
+import axios from 'axios'
+
+export default {
+  getHouse: function (state, cb) {
+    axios.get('/api/house/1')
+      .then((res) => {
+        if (res.status >= 200 & res.status < 300) {
+          cb(res.data)
+        }
+      })
+      .catch((err) => {
+        return Promise.reject(err)
+      })
+  }
+}
+```
+
+```javascript
+// house.js
+import api from '../utils/api'
+import * as types from '../utils/types'
+
+const state = {
+  house: {},
+  isLoading: false
+}
+
+const getters = {
+  getHouse: state => state.house
+}
+
+const mutations = {
+  [types.GET_HOUSE] (state, data) {
+    state.house = data
+  },
+  [types.COM_IS_LOADING] (state, status) {
+    state.isLoading = status
+  }
+}
+
+const actions = {
+  gethouse ({ commit, state }) {
+    commit(types.COM_IS_LOADING, true)
+    api.getHouse(state, (res) => {
+      commit(types.GET_HOUSE, res)
+    })
+    commit(types.COM_IS_LOADING, false)
+  }
+}
+
+export default {
+  state,
+  getters,
+  mutations,
+  actions
+}
+```
+
+```javascript
+// index.js
+import Vue from 'vue'
+import Vuex from 'vuex'
+
+// modules
+import house from './modules/house'
+
+Vue.use(Vuex)
+
+export default new Vuex.Store({
+  modules: {
+    house
+  }
+})
+```
+
+위 코드를 전부 작성하고 main.js 에 추가해주면 사용할 수 있습니다.
+
+* 컴포넌트에서 스토어 데이터 가져오기
+
+모듈에 작성한 게터를 통해서 하우스에 접근가능합니다
+
+```javascript
+// Home.vue
+import { mapGetters } from 'vuex'
+
+{
+  ...,
+  computed: {
+    ...mapGetters({
+      house: 'getHouse'
+    })
+  }
+}
+```
+
+만약 뷰엑스를 추가하고 빌드 오류가 나는 경우에는 babel-preset-2015를 추가하면 됩니다.
+
