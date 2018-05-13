@@ -1,23 +1,21 @@
 <template>
-  <div>
-    <h1>Home Component</h1>
+  <div class="v-container">
+    <HeaderComponent/>
+    <ContentComponent/>
   </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import HeaderComponent from '../components/HeaderComponent.vue'
+import ContentComponent from '../components/ContentComponent.vue'
 
 export default {
-  data: function () {
-    return {}
-  },
-  computed: {
-    ...mapGetters({
-      house: 'getHouse'
-    })
-  },
-  created: function () {
-    this.$store.dispatch('getHouse')
+  components: {
+    HeaderComponent,
+    ContentComponent
   }
 }
 </script>
+
+<style scoped>
+</style>

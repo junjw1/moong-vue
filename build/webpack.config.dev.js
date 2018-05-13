@@ -37,6 +37,15 @@ module.exports = {
         test: /\.(js|vue)$/,
         use: 'eslint-loader',
         enforce: 'pre'
+      },
+      {
+        test: /\.(png|jpg|gif|svg|eot|ttf|woff|woff2)$/,
+        loader: 'url-loader',
+        options: {
+          publicPath: './dist/',
+          name: '[name].[ext]?[hash]',
+          limit: 10000
+        }
       }
     ]
   },

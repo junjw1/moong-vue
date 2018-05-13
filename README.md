@@ -710,3 +710,40 @@ import { mapGetters } from 'vuex'
 
 만약 뷰엑스를 추가하고 빌드 오류가 나는 경우에는 babel-preset-2015를 추가하면 됩니다.
 
+# 스타일 시트에서 url로 파일 가져오기
+
+스타일에서 이미지를 불러오는 경우 지금까지 사용했던 로더만 가지고는 그 이미지를 불러올 수 없습니다.
+
+* 패키지 설치
+
+```bash
+$ npm install -D url-loader file-loader
+```
+
+* 웹팩 설정
+
+확장자를 찾으면 해당 경로로 파일을 복사한다.
+
+```javascript
+{
+  test: /\.(png|jpg|gif|svg|eot|ttf|woff|woff2)$/,
+  loader: 'file-loader',
+  options: {
+    publicPath: './dist/',
+    name: '[name].[ext]?[hash]'
+  }
+}
+```
+
+정의한 사이즈보다 작은 파일은 복사하지 않고 문자열로 번들 파일에 추가한다.
+
+```javascript
+{
+  test: /\.(png|jpg|gif|svg|eot|ttf|woff|woff2)$/,
+  loader: 'url-loader',
+  options: {
+    name: '/images/[name].[ext]',
+    limit: 10000,
+  }
+}
+```
