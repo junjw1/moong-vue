@@ -60,7 +60,20 @@ new Vue({
   render: h => h(App)
 })
 ```
+* dist/index.html
 
+```html
+<!DOCTYPE html>
+<html>
+<head>
+  <title>뷰 바닥부터 쌓아올리기</title>
+</head>
+<body>
+  <div id="app"></div>
+  <script type="text/javascript" src="main.js"></script></body>
+</body>
+</html>
+```
 * 뷰, 웹팩 설치
 
 ```bash
