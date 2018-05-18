@@ -65,7 +65,7 @@ new Vue({
 
 ```bash
 $ npm install --save vue
-$ npm install --save-dev webpack webpack-dev
+$ npm install --save-dev webpack webpack-cli
 ```
 
 * 뷰 로더 설치
