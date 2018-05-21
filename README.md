@@ -93,7 +93,7 @@ $ npm install -D vue-loader vue-template-compiler
 // build/webpack.config.dev.js
 'use strict'
 
-const VueLoaderPlugin = require('vue-loader')
+const { VueLoaderPlugin } = require('vue-loader') // vue-loader에서 제공하는 플러그인 중 VueLoaderPlugin만 가져오기 위해 { }로 감싸준다.
 
 module.exports = {
   mode: 'development',
@@ -144,6 +144,13 @@ $ npm run build
 ```
 
 - App.vue 파일에 간단한 스타일을 넣고 빌드
+```vue
+<style>
+h1 {
+  color: red;
+}
+</style>
+```
   - 오류나는거 확인 가능
   - 웹팩이 css 파일을 읽지 못함
 
@@ -344,7 +351,7 @@ module.exports = {
 
 실행해보면 코드 검사를 해서 결과를 보여주는것을 확인할 수 있습니다.
 
-결과를 보면 new Vue() 에서 오류가 발생하고 있는데 해당 코드는 오류가 아니기 때문에 오류가 발생하지 않도록 다음 코드를 추가해줍니다.
+결과를 보면 new Vue() 에서 오류가 발생하고 있는데 해당 코드는 오류가 아니기 때문에 오류가 발생하지 않도록 다음 코멘트를 추가해줍니다.
 
 * main.js
 
@@ -445,7 +452,7 @@ env: {
 }
 ```
 
-\_\_test\_\_ 폴더를 생성한 후, 다음 파일을 작성
+src/에 \_\_test\_\_ 폴더를 생성한 후, 다음 파일을 작성
 
 * 테스트 스크립트 작성
 
